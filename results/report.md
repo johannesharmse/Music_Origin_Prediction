@@ -30,10 +30,42 @@ The problem on hand is a classification problem, which limits the type of estima
 
 Each estimator that is being used, is being trained on training data, and validated using an independent data subset.
 
-The plot below shows the accuracy of the random forest classifier for a range of features, by using backward selection.
+The plot below shows the accuracy of the random forest classifier for a range of features, by using backward selection. By observing the different plots, it seemed as if 10 features were sufficient and that backward seelction (blue line) performed better feature selection than PCA.
 
 ![RFC](../data/images/rbf_feats.png)
 
 The table shows the features that were selected per estimator. The features that were selected by non can be omitted from the model.
 
 ![Geographical clusters](../data/images/features.PNG)
+
+## Model Building
+
+We can now use this these features to test out the same estimators and include k nearest neighbours.
+
+Using cross validation over a grid of hyperparameters, we obtain the following results as the best results for each estimator.
+
+![CV results](../data/images/cv_results.PNG)
+
+## Conclusion
+
+The accuracy scores are much lower than desired. However, it must be beared in mind that the clusters in the data aren't necessarily unique in terms of song style.
+
+If we change the amount of clusters, we obtain the following accuracy trend for the different models.
+
+![](../data/images/recluster.png)
+
+The plot shows that the accuracy decreases exponentially as the number of coordinate clusters increase. This is understandable, because it is more likely of randomly predicting the correct cluster if there are only a few clusters to choose from. The elbow of the curves above is around 7 clusters. No penalty score has been added, which makes it understandable that the slopes continues to decrease after this.
+
+Given the above plot, it would be a good idea to visualise the above three models at 7 neighbours on a coordinate scatterplot.
+
+![](../data/images/geo7.png)
+
+![](../data/images/svc7.png)
+
+![](../data/images/knn7.png)
+
+![](../data/images/rfc7.png)
+
+After applying our the best hyperparameters to each of the three models, we were still not could still not reach 50% accuracy for classifying music by geographic location, even after we reduced the number of cluster to 7.
+
+Random Forest Classification did marginally better than the other two models with an accuracy score of 46.3% when considering 7 geographical clusters.

@@ -14,6 +14,12 @@ The dataset consists of audio features that were extracted using [MARSYAS](http:
 
 Even though we have more than 1000 observations, it would appear as if the songs have already been assigned a common coordinate set.
 
+We know little about what the different audio features mean. A good idea would be to scale the features and see how much variance is explained by each dimension. We can use PCA to plot the variance. A PCA dimension (PC) is not equivalent to a feature, but it will give us a sufficient idea whether there are features that do not contribute towards the variance in the feature space.
+
+![PCA Variance](../data/images/var_exp.png)
+
+By looking at  the above plot, it would appear as if we can reduce the dimensionality of the feature space without losing a lot of variance.
+
 ## Feature Selection
 
 We have 68 features, but we have no idea whether all the features are relevant or not.
@@ -68,14 +74,20 @@ Given the above plot, it would be a good idea to visualise the above three model
 
 After applying our the best hyperparameters to each of the three models, we were still not could still not reach 50% accuracy for classifying music by geographic location, even after we reduced the number of cluster to 7.
 
+These are the classification results when using 7 geographical clusters.
+
+![](../data/images/result_mat.PNG)
+
 Random Forest Classification did marginally better than the other two models with an accuracy score of 46.3% when considering 7 geographical clusters. We can have a look at the models and their best hyperparameter combinations in the table below.
 
 ![](../data/images/acc.PNG)
+
+The results have improved after reducing the number of geographical clusters, but we cannot conclude from these accuracy scores that we can successfully classify songs by geographic region based on song features.
 
 ## Conclusions
 
 It is really difficult to classify songs by geographic location. In reality, it is a mixture of supervised and unsupervised learning. Feature selection makes it an even more demanding task.
 
-In retrospect, it might be possible to increase accuracy by first reducing the number of clusters, followed by feature selection and then building the model.
-
 Seeing that geographic locations can be mapped out, it might be a good idea to incorporate distances from the correct clusters in the accuracy calculation - it would be more acceptable if a wrong cluster has been selected that is on the same continent as the correct cluster, than choosing a cluster on the other side of the world.
+
+In addition, exploring different sound wave features that have not been included in this dataset might results in higher accuracy scores. We do not have a lot of information about the features used in this model, but it would be fair to ask whether the features that we are using are sufficiently explaining the variance in song characteristics. It might be that these features aren't capturing the essential musical differences between regions.
